@@ -3,12 +3,10 @@
 
 <body>
     <h2>等级升级金币计算</h2>
-    初始等级: <input type="number" id="start" min="1" max="15"><br>
-    目标等级: <input type="number" id="end" min="1" max="15"><br>
-    <button onclick="calculate()">计算</button>
+    初始等级: <input type="number" id="start" min="1" max="15" oninput="calculate()"><br>
+    目标等级: <input type="number" id="end" min="1" max="15" oninput="calculate()"><br>
     <p id="result"></p>
 
-    <br>
     <br>
     <table>
         <tr>
