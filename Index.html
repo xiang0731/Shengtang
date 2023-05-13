@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+    <title>DataHandler</title>
+    <style>
+        #panel-handler #handler_display {
+            white-space: pre;
+            max-height: 50%;
+            overflow: scroll;
+        }
+
+        #panel-handler #input {
+            resize: none;
+            width: 100%;
+            overflow: scroll;
+        }
+
+        .container {
+            /* display: flex; */
+
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+            width: 80%;
+            margin-left: 10%;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        textarea {
+            margin-bottom: 10px;
+            width: 100%;
+            resize: both;
+            /* 允许用户调整大小 */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .history-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .history-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">17ShengTang</span><span class="icon-bar"></span><span
+                                class="icon-bar"></span><span class="icon-bar"></span></button>
+                        <a class="navbar-brand" href="#panel-home" data-toggle="tab"><i>
+                                <font color="red">17</font>ShengTang
+                            </i></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+
+                            <li>
+                                <a href="#GemsUpgrade" data-toggle="tab">Gems Upgrade</a>
+                            </li>
+                            <li>
+                                <a href="#TBD" data-toggle="tab">开发中</a>
+                            </li>
+
+
+
+                        </ul>
+                    </div>
+                </nav>
+                <div class="tabbable" id="content">
+                    <div class="tab-content">
+                        <div class="tab-pane col-12 active" id="panel-home">
+                            <div class="">Welcome</div>
+                        </div>
+
+                        <div class="tab-pane col-12 " id="GemsUpgrade">
+                            <h2>等级升级金币计算</h2>
+                            初始等级: <input type="number" id="start" min="1" max="15" oninput="calculate()"><br>
+                            目标等级: <input type="number" id="end" min="1" max="15" oninput="calculate()"><br>
+                            <p id="result"></p>
+
+                            <br>
+                            <table border="1" style="border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th>宝石等级</th>
+                                        <th>宝石属性</th>
+                                        <th>升级消耗金币(万)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>45</td>
+                                        <td>5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>135</td>
+                                        <td>10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>225</td>
+                                        <td>20</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>385</td>
+                                        <td>40</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>585</td>
+                                        <td>300</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>785</td>
+                                        <td>600</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>1020</td>
+                                        <td>1200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>1285</td>
+                                        <td>1800</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>1530</td>
+                                        <td>2400</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>1800</td>
+                                        <td>3000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>11</td>
+                                        <td>2250</td>
+                                        <td>4000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>2925</td>
+                                        <td>5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>13</td>
+                                        <td>3825</td>
+                                        <td>6000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td>4950</td>
+                                        <td>8000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>15</td>
+                                        <td>6400</td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane col-12 " id="TBD"></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf-8" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/z.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/randomName.js"></script>
+<script type="text/javascript" charset="utf-8">
+    ;
+    let tmp = null;
+    let result = null;
+
+    $(document).ready(function () {
+        $('#name_table_refresh').click(function () {
+            let target = $('#table-name');
+            let language = $('#name_language').val() == "false" ? false : true;
+            let gander_m = $('#name_gender').val() == "false" ? false : true;
+            let number = $('#name_number').val();
+            let result = null;
+            if (language) {
+                result = z.getRandomNameArrayEnF(number, gander_m);
+            } else {
+                result = z.getRandomNameArray(number, gander_m);
+            }
+            let tmp = '';
+            for (let i = 0; i < result.length; i++) {
+                tmp = tmp.concat('<tr><td>' + result[i][0] + '</td><td>' + result[i][1] + '</td></tr>');
+            }
+            tmp = ''.concat('<thead><tr><td>Last Name</td><td>First Name</td></tr></thead><tbody>'.concat(tmp).concat(
+                '</tbody>'));
+            target.html(tmp);
+        });
+        $('li').click(function () {
+            tmp = $('#handler_input').val();
+        });
+        $('[id*="submit"]').click(function () {
+            $('#handler_input').val(result);
+        });
+        $('[id*="clean"]').click(function () {
+            tmp = '';
+            result = '';
+            $('#handler_input').val('');
+        });
+        $('[id*="copy"]').click(function () {
+            z.string.setClipBoard($('#handler_input'));
+        });
+        $('[id*="toQueryIdSet"]').click(function () {
+            result = z.string.surroundEachRows(tmp, '\'', '\',', false, false);
+        });
+        $('[id*="toQueryFieldName"]').click(function () {
+            result = z.string.replaceForSQL(tmp);
+        });
+        $('[id*="toTableRow"]').click(function () {
+            result = z.string.replaceForTable(tmp);
+        });
+        $('[id*="toTableColumn"]').click(function () {
+            result = z.string.replaceForTable(tmp, 1);
+        });
+        $('[id*="toSentenceFormate"]').click(function () {
+            tmp = tmp.split('\n');
+            result = z.string.concatArray(tmp, '\n', false, true, function (str) {
+                return z.string.formatSentence(str);
+            });
+        });
+        $('[id*="toLabelFormate"]').click(function () {
+            tmp = tmp.split('\n');
+            result = z.string.concatArray(tmp, '\n', false, true, function (str) {
+                return z.string.formatLabel(str);
+            });
+        });
+        $('[id*="toFieldsName"]').click(function () {
+            tmp = tmp.split('\n');
+            result = z.string.concatArray(tmp, '\n', false, true, function (str) {
+                return z.string.toFieldsName(str);
+            });
+        });
+        $('[id*="toFieldsNameNoSpace"]').click(function () {
+            tmp = tmp.split('\n');
+            result = z.string.concatArray(tmp, '\n', false, true, function (str) {
+                z.string.drop(str, ' ')
+            });
+        });
+        $('[id*="toCustomAPI"]').click(function () {
+            tmp = tmp.split('\n');
+            z.log(tmp)
+            result = z.string.concatArray(tmp, '\n', false, true, function (str) {
+                return z.string.toCustomObjecAPIName(str);
+            });
+            z.log(result)
+        });
+        $('[id*="toCsvTable"]').click(function () {
+            result = z.string.packageTable(tmp);
+        })
+        $('[id*="toLower"]').click(function () {
+            result = tmp.toLocaleLowerCase();
+        })
+        $('[id*="toUpper"]').click(function () {
+            result = tmp.toLocaleUpperCase();
+        })
+        $('li').click(function () {
+            $('#handler_display').html(result);
+        });
+    });
+</script>
+
+
+<script>
+    var data = [
+        { start: 1, end: 2, gold: 5 },
+        { start: 2, end: 3, gold: 10 },
+        { start: 3, end: 4, gold: 20 },
+        { start: 4, end: 5, gold: 40 },
+        { start: 5, end: 6, gold: 300 },
+        { start: 6, end: 7, gold: 600 },
+        { start: 7, end: 8, gold: 1200 },
+        { start: 8, end: 9, gold: 1800 },
+        { start: 9, end: 10, gold: 2400 },
+        { start: 10, end: 11, gold: 3000 },
+        { start: 11, end: 12, gold: 4000 },
+        { start: 12, end: 13, gold: 5000 },
+        { start: 13, end: 14, gold: 6000 },
+        { start: 14, end: 15, gold: 8000 }
+    ];
+
+    function calculate() {
+        var start = parseInt(document.getElementById('start').value);
+        var end = parseInt(document.getElementById('end').value);
+        var sum = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].start >= start && data[i].end <= end) {
+                sum += data[i].gold;
+            }
+        }
+        document.getElementById('result').innerHTML = "所需金币: " + sum;
+    }
+</script>
+
+
+</html>
