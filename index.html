@@ -59,6 +59,22 @@
         .history-item {
             margin-bottom: 10px;
         }
+
+        th,
+        td {
+            text-align: left;
+            padding: 5px;
+        }
+
+        select,
+        input {
+            margin-left: 5px;
+        }
+
+        .align-right {
+            text-align: right;
+            padding-right: 5px;
+        }
     </style>
 </head>
 
@@ -80,7 +96,11 @@
                         <ul class="nav navbar-nav">
 
                             <li>
-                                <a href="#GemsUpgrade" data-toggle="tab">Gems Upgrade</a>
+                                <a href="#WeaponUpgrade" data-toggle="tab">神器升级计算器</a>
+                            </li>
+
+                            <li>
+                                <a href="#GemsUpgrade" data-toggle="tab">宝石升级计算器</a>
                             </li>
                             <li>
                                 <a href="#TBD" data-toggle="tab">开发中</a>
@@ -94,7 +114,22 @@
                 <div class="tabbable" id="content">
                     <div class="tab-content">
                         <div class="tab-pane col-12 active" id="panel-home">
-                            <div class="">Welcome</div>
+                            <br>
+                            <br>
+                            <h4>数据参考：<a
+                                    href="https://xiang0731.github.io/2022/01/01/%E6%B8%B8%E6%88%8F-%E5%9C%A3%E5%A0%82/220101%20%E5%9C%A3%E5%A0%82%E5%90%84%E7%A7%8D%E8%A1%A8%E6%A0%BC/">圣堂各类表格</a>
+                            </h4>
+                            <br>
+                            <br>
+                            <p>无法切换请刷新页面</p>
+                        </div>
+
+                        <div class="tab-pane col-12 " id="WeaponUpgrade">
+                            <h2>神器等级计算器</h2>
+                            <p id="remaining">距离20级神器还差：570个</p>
+                            <table id="calculator">
+                                <!-- 我们将在这里动态生成行 -->
+                            </table>
                         </div>
 
                         <div class="tab-pane col-12 " id="GemsUpgrade">
@@ -192,7 +227,7 @@
                             </table>
                         </div>
 
-                        <div class="tab-pane col-12 " id="TBD"></div>
+                        <div class="tab-pane col-12 " id="TBD">等我有时间再折腾折腾...</div>
 
 
                     </div>
@@ -303,7 +338,130 @@
     });
 </script>
 
+<!-- 神器计算 -->
+<script>
+    // 数据表
+    var data = [
+        { level: 0, energy: 0, progress: 0 },
+        { level: 1, energy: 1, progress: 1 },
+        { level: 2, energy: 2, progress: 3 },
+        { level: 3, energy: 5, progress: 5 },
+        { level: 4, energy: 10, progress: 7 },
+        { level: 5, energy: 17, progress: 9 },
+        { level: 6, energy: 26, progress: 12 },
+        { level: 7, energy: 38, progress: 15 },
+        { level: 8, energy: 53, progress: 18 },
+        { level: 9, energy: 71, progress: 21 },
+        { level: 10, energy: 92, progress: 24 },
+        { level: 11, energy: 116, progress: 28 },
+        { level: 12, energy: 144, progress: 32 },
+        { level: 13, energy: 176, progress: 36 },
+        { level: 14, energy: 212, progress: 40 },
+        { level: 15, energy: 252, progress: 45 },
+        { level: 16, energy: 297, progress: 52 },
+        { level: 17, energy: 349, progress: 61 },
+        { level: 18, energy: 410, progress: 72 },
+        { level: 19, energy: 482, progress: 88 },
+        { level: 20, energy: 570, progress: 0 }
+    ];
 
+    // 获取DOM元素
+    var table = document.getElementById('calculator');
+    var remaining = document.getElementById('remaining');
+
+    // 添加表头
+    var headerRow = document.createElement('tr');
+
+    var headerLevel = document.createElement('th');
+    headerLevel.textContent = '';
+    headerRow.appendChild(headerLevel);
+
+    var headerLevel = document.createElement('th');
+    headerLevel.textContent = '等级';
+    headerRow.appendChild(headerLevel);
+
+    var headerExp = document.createElement('th');
+    headerExp.textContent = '经验';
+    headerRow.appendChild(headerExp);
+
+    table.appendChild(headerRow);
+
+    // 动态生成行
+    for (var i = 0; i < 6; i++) {
+        var row = document.createElement('tr');
+
+        var prefixText = document.createElement('td');
+        prefixText.textContent = i === 0 ? '神器：' : '材料：';
+        prefixText.classList.add('align-right');
+        row.appendChild(prefixText);
+
+        var levelCell = document.createElement('td');
+        levelCell.style.padding = '0';
+        var levelSelect = document.createElement('select');
+        levelSelect.addEventListener('change', updateCalculation);
+        levelCell.appendChild(levelSelect);
+        row.appendChild(levelCell);
+
+        var progressCell = document.createElement('td');
+        progressCell.style.padding = '0';
+        progressCell.classList.add('align-right');
+        var progressInput = document.createElement('input');
+        progressInput.type = 'number';
+        progressInput.min = 0;
+        progressInput.max = 0;
+        progressInput.value = 0;
+        progressInput.addEventListener('input', updateCalculation);
+        progressInput.style.width = '50px'; // 设置输入框的宽度
+        progressCell.appendChild(progressInput);
+        row.appendChild(progressCell);
+
+        var errorText = document.createElement('span');
+        row.appendChild(errorText);
+
+        table.appendChild(row);
+
+        for (var j = 0; j < data.length; j++) {
+            var option = document.createElement('option');
+            option.value = data[j].level;
+            option.text = '等级 ' + data[j].level;
+            levelSelect.appendChild(option);
+        }
+    }
+
+    // 更新计算
+    function updateCalculation() {
+        var totalEnergy = 0;
+        var rows = table.getElementsByTagName('tr');
+        for (var i = 1; i < rows.length; i++) {
+            var levelSelect = rows[i].children[1].firstChild;
+            var progressInput = rows[i].children[2].firstChild;
+            var errorText = rows[i].children[3];
+
+            var level = levelSelect.value;
+            var progress = progressInput.value;
+
+            var energy = data.find(function (item) { return item.level == level; }).energy;
+            var maxProgress = data.find(function (item) { return item.level == level; }).progress;
+
+            progressInput.max = maxProgress;
+
+            if (progress > maxProgress) {
+                errorText.textContent = '超出当前神器最大经验值';
+            } else {
+                errorText.textContent = '';
+                totalEnergy += energy + parseInt(progress);
+            }
+        }
+
+        var remainingEnergy = 570 - totalEnergy;
+        remaining.textContent = '距离20级神器还差：' + remainingEnergy + ' 个1级神器';
+    }
+
+    // 初始更新
+    updateCalculation();
+</script>
+
+<!-- 宝石计算 -->
 <script>
     var data = [
         { start: 1, end: 2, gold: 5 },
@@ -331,7 +489,7 @@
                 sum += data[i].gold;
             }
         }
-        document.getElementById('result').innerHTML = "所需金币: " + sum;
+        document.getElementById('result').innerHTML = "所需金币: " + sum + " 万";
     }
 </script>
 
