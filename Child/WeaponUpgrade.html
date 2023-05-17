@@ -4,18 +4,18 @@
 <head>
     <title>神器升级计算器</title>
     <style>
-        th,
-        td {
+        #WeaponUpgradeCalculator th,
+        #WeaponUpgradeCalculator td {
             text-align: left;
             padding: 5px;
         }
 
-        select,
-        input {
+        #WeaponUpgradeCalculator select,
+        #WeaponUpgradeCalculator input {
             margin-left: 5px;
         }
 
-        .align-right {
+        .WeaponUpgradeAlignRight {
             text-align: right;
             padding-right: 5px;
         }
@@ -23,14 +23,14 @@
 </head>
 
 <body>
-    <h2>神器等级计算器</h2>
-    <p id="remaining">距离20级神器还差：570个1级神器</p>
-    <table id="calculator">
+    <h2 id="WeaponUpgradeTitle">神器等级计算器</h2>
+    <p id="WeaponUpgradeRemaining">距离20级神器还差：570个1级神器</p>
+    <table id="WeaponUpgradeCalculator">
         <!-- 我们将在这里动态生成行 -->
     </table>
     <script>
         // 数据表
-        var data = [
+        var WeaponUpgradeData = [
             { level: 0, energy: 0, progress: 0 },
             { level: 1, energy: 1, progress: 1 },
             { level: 2, energy: 2, progress: 3 },
@@ -55,8 +55,8 @@
         ];
 
         // 获取DOM元素
-        var table = document.getElementById('calculator');
-        var remaining = document.getElementById('remaining');
+        var WeaponUpgradeTable = document.getElementById('WeaponUpgradeCalculator');
+        var WeaponUpgradeRemaining = document.getElementById('WeaponUpgradeRemaining');
 
         // 添加表头
         var headerRow = document.createElement('tr');
@@ -73,7 +73,7 @@
         headerExp.textContent = '经验';
         headerRow.appendChild(headerExp);
 
-        table.appendChild(headerRow);
+        WeaponUpgradeTable.appendChild(headerRow);
 
         // 动态生成行
         for (var i = 0; i < 6; i++) {
@@ -81,13 +81,13 @@
 
             var prefixText = document.createElement('td');
             prefixText.textContent = i === 0 ? '神器：' : '材料：';
-            prefixText.classList.add('align-right');
+            prefixText.classList.add('WeaponUpgradeAlignRight');
             row.appendChild(prefixText);
 
             var levelCell = document.createElement('td');
             levelCell.style.padding = '0';
             var levelSelect = document.createElement('select');
-            levelSelect.addEventListener('change', updateCalculation);
+            levelSelect.addEventListener('change', WeaponUpgradeUpdateCalculation);
             levelCell.appendChild(levelSelect);
             row.appendChild(levelCell);
 
@@ -99,7 +99,7 @@
             progressInput.min = 0;
             progressInput.max = 0;
             progressInput.value = 0;
-            progressInput.addEventListener('input', updateCalculation);
+            progressInput.addEventListener('input', WeaponUpgradeUpdateCalculation);
             progressInput.style.width = '50px'; // 设置输入框的宽度
             progressCell.appendChild(progressInput);
             row.appendChild(progressCell);
@@ -107,20 +107,20 @@
             var errorText = document.createElement('span');
             row.appendChild(errorText);
 
-            table.appendChild(row);
+            WeaponUpgradeTable.appendChild(row);
 
-            for (var j = 0; j < data.length; j++) {
+            for (var j = 0; j < WeaponUpgradeData.length; j++) {
                 var option = document.createElement('option');
-                option.value = data[j].level;
-                option.text = '等级 ' + data[j].level;
+                option.value = WeaponUpgradeData[j].level;
+                option.text = '等级 ' + WeaponUpgradeData[j].level;
                 levelSelect.appendChild(option);
             }
         }
 
         // 更新计算
-        function updateCalculation() {
+        function WeaponUpgradeUpdateCalculation() {
             var totalEnergy = 0;
-            var rows = table.getElementsByTagName('tr');
+            var rows = WeaponUpgradeTable.getElementsByTagName('tr');
             for (var i = 1; i < rows.length; i++) {
                 var levelSelect = rows[i].children[1].firstChild;
                 var progressInput = rows[i].children[2].firstChild;
@@ -129,8 +129,8 @@
                 var level = levelSelect.value;
                 var progress = progressInput.value;
 
-                var energy = data.find(function (item) { return item.level == level; }).energy;
-                var maxProgress = data.find(function (item) { return item.level == level; }).progress;
+                var energy = WeaponUpgradeData.find(function (item) { return item.level == level; }).energy;
+                var maxProgress = WeaponUpgradeData.find(function (item) { return item.level == level; }).progress;
 
                 progressInput.max = maxProgress;
 
@@ -143,11 +143,11 @@
             }
 
             var remainingEnergy = 570 - totalEnergy;
-            remaining.textContent = '距离20级神器还差：' + remainingEnergy + ' 个1级神器';
+            WeaponUpgradeRemaining.textContent = '距离20级神器还差：' + remainingEnergy + ' 个1级神器';
         }
 
         // 初始更新
-        updateCalculation();
+        WeaponUpgradeUpdateCalculation();
     </script>
 </body>
 
